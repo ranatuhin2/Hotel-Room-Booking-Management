@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,13 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Invalid credentials']); 
         }
 
-        return redirect()->route('dashboard');  
+        if(Auth::user()->role == 'user')
+        {
+            return redirect()->route('user.dashboard');
+        }
+
+        return redirect()->route('admin.dashboard');
+          
     }
 
     public function showRegister() 
@@ -41,12 +47,6 @@ class AuthController extends Controller
 
         Auth::login($user);
         return redirect()->route('dashboard');
-    }
-
-
-    public function dashboard()
-    {
-        return view('dashboard');
     }
 
 
