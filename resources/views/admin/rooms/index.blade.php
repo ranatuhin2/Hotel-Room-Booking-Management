@@ -22,7 +22,7 @@
                 <th width="150">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="rooms-list" >
             @forelse($rooms as $room)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
