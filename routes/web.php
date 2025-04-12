@@ -31,7 +31,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('rooms')->name('rooms.')->group(function () {
-        Route::get('/', [RoomController::class, 'index'])->name('index');               
+        Route::get('/', [RoomController::class, 'index'])->name('index'); 
+        Route::get('/load', [RoomController::class, 'loadRooms'])->name('load');              
         Route::get('/create', [RoomController::class, 'create'])->name('create');        
         Route::post('/create', [RoomController::class, 'store'])->name('store');         
         Route::get('/edit/{room}', [RoomController::class, 'edit'])->name('edit');       
