@@ -27,6 +27,7 @@ class AuthController extends Controller
         {
             return redirect()->route('user.dashboard');
         }
+        
 
         return redirect()->route('admin.dashboard');
           

@@ -77,4 +77,38 @@ class RoomBookingController extends Controller
             'bookings' => view('user.room.partial.my_book_table', compact('bookings'))->render(),
         ]);
     }
+
+
+
+    public function filter(Request $request)
+    {
+        $query = Room::where('status', 'available');
+
+        if ($request->search) {
+            $query->where(function($q) use ($request) {
+                $q->where('room_number', 'like', '%' . $request->search . '%')
+                ->orWhere('type', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->type) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->min_price) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->max_price) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+
+
+        $rooms = $query->get();
+
+        $html = view('user.room.partial.table', compact('rooms'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 }

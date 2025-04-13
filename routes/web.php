@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\User\RoomBookingController;
+use App\Http\Middleware\IsAdmin;
 
 
 
@@ -29,6 +30,8 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
         Route::post('/book', [RoomBookingController::class, 'book'])->name('book');
         Route::get('/my-bookings', [RoomBookingController::class, 'myBookings'])->name('myBookings');
         Route::delete('/cancel-booking/', [RoomBookingController::class, 'cancel'])->name('cancel');
+        Route::get('/filter-rooms', [RoomBookingController::class, 'filter'])->name('filter');
+
     });
 
 });
@@ -36,7 +39,7 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
 
 
 /*-----------------------------ADMIN ROUTE(ROOM)----------------------------------------------------------*/
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth',IsAdmin::class])->group(function () {
 
     Route::get('/dashboard', [AdminHomeController::class, 'dashboard'])->name('dashboard');
 
