@@ -28,7 +28,6 @@ class AuthController extends Controller
             return redirect()->route('user.dashboard');
         }
         
-        dd(Auth::user()->role);
 
         return redirect()->route('admin.dashboard');
           
