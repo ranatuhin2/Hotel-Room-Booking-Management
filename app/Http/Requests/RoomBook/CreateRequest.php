@@ -23,8 +23,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date|after_or_equal:today',
-            'check_out' => 'required|date|after:check_in',
+            // 'date_range' => 'required|date|after_or_equal:today',
         ];
     }
 
@@ -33,12 +32,9 @@ class CreateRequest extends FormRequest
         return [
             'room_id.required'   => 'Please select a room.',
             'room_id.exists'     => 'The selected room does not exist.',
-            'check_in.required'  => 'Please select a check-in date.',
-            'check_in.date'      => 'The check-in date must be a valid date.',
-            'check_in.after_or_equal' => 'The check-in date must be today or later.',
-            'check_out.required' => 'Please select a check-out date.',
-            'check_out.date'     => 'The check-out date must be a valid date.',
-            'check_out.after'    => 'The check-out date must be after the check-in date.',
+            // 'date_range.required'  => 'Please select a check-in date.',
+            // 'date_range.date'      => 'The check-in date must be a valid date.',
+            // 'date_range.after_or_equal' => 'The check-in date must be today or later.',
         ];
     }
 }

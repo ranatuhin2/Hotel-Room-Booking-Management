@@ -72,6 +72,7 @@
         let form = $(this);
         let roomId = form.data('id');
         let modal = $('#bookingModal' + roomId);
+        
 
         $.ajax({
             url: "{{ route('user.booking.book') }}",
@@ -92,6 +93,59 @@
                 } else {
                     toastr.error('Something went wrong.');
                 }
+            }
+        });
+    });
+
+
+
+    $(document).on('click','.bookRoomBtn',function(){
+        let room_id = $(this).data('id');
+        /* Getting Room Id Booked Data */
+        $.ajax({
+            url: "{{ route('user.booking.getRoomData') }}",
+            type: 'POST',
+            data: {
+               'room_id':room_id
+            },
+            success: function (res) { 
+
+
+                function getDisabledDates(start, end) {
+                    let dates = [];
+                    let current = new Date(start);
+                    while (current <= end) {
+                        let formatted = current.toISOString().split('T')[0]; // YYYY-MM-DD
+                        dates.push(formatted);
+                        current.setDate(current.getDate() + 1);
+                    }
+                    return dates;
+                }
+
+                let disabledDates = [];
+                
+                res.forEach(entry => {
+                    let checkIn = new Date(entry.check_in);
+                    let checkOut = new Date(entry.check_out);
+                    disabledDates = disabledDates.concat(getDisabledDates(checkIn, checkOut));
+                });
+
+                $('#bookingModal' + room_id).on('shown.bs.modal', function () {
+                    flatpickr("#stayRange", {
+                        mode: "range",
+                        dateFormat: "Y-m-d",
+                        disable: disabledDates,
+                        minDate: "today",
+                        showMonths: 1,
+                        inline: false
+                    });
+                });
+
+                
+                
+            },
+            error: function () {
+                toastr.error('Failed to load filtered rooms.');
             }
         });
     });

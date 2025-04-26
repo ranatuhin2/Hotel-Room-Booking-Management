@@ -14,30 +14,27 @@ class RoomBookingController extends Controller
 {
     public function index()
     {
-        $rooms = Room::where('status', 'available')->get();
+        $rooms = Room::all();
         return view('user.rooms', compact('rooms'));
     }
 
     public function book(CreateRequest $request)
     {
-
+        $dateRange = $request->date_range;
+        list($checkIn, $checkOut) = explode(" to ", $dateRange);
         $room = Room::findOrFail($request->room_id);
-
-        if ($room->status !== 'Available') {
-            return response()->json(['message' => 'Sorry, this room is no longer available.'], 400);
-        }
-
+        
         $room->status = 'booked';
         $room->save();
 
         Booking::create([
             'user_id' => Auth::id(),
             'room_id' => $room->id,
-            'check_in' => $request->check_in,
-            'check_out' => $request->check_out,
+            'check_in' =>$checkIn,
+            'check_out' => $checkOut,
         ]);
 
-        $rooms = Room::where('status', 'available')->get();
+        $rooms = Room::all();
 
         return response()->json([
             'message' => 'Room booked successfully!',
@@ -110,5 +107,14 @@ class RoomBookingController extends Controller
         $html = view('user.room.partial.table', compact('rooms'))->render();
 
         return response()->json(['html' => $html]);
+    }
+
+
+    public function getRoomData(Request $request)
+    {
+        $room = Room::findOrFail($request->room_id);
+        $booking = $room->bookings;
+        return response()->json($booking);
+
     }
 }

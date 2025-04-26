@@ -11,11 +11,12 @@ class HomeController extends Controller
 {
     public function dashboard()
     {
+
         $totalRooms = Room::count();
         $totalBookings = Booking::count();
         $upcomingBookings = Booking::where('check_in', '>', now())->count();
         $pastBookings = Booking::where('check_out', '<', now())->count();
-
+        
         // Booking Trends (past 6 months)
         $bookingTrends = Booking::selectRaw('MONTHNAME(check_in) as month, COUNT(*) as count')
             ->where('check_in', '>=', now()->subMonths(6))

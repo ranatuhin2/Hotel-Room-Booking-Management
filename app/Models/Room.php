@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
@@ -12,4 +13,10 @@ class Room extends Model
         'price',
         'status',
     ];
+
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class,'room_id');
+    }
 }

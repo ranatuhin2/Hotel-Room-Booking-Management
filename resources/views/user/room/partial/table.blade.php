@@ -31,14 +31,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="check_in" class="form-label">Check-In Date</label>
                             <input type="date" class="form-control" name="check_in" required>
                         </div>
                         <div class="mb-3">
                             <label for="check_out" class="form-label">Check-Out Date</label>
                             <input type="date" class="form-control" name="check_out" required>
-                        </div>
+                        </div> --}}
+                        <label>Select Stay Duration</label>
+                        <input type="text" id="stayRange" name="date_range" class="form-control" placeholder="Select your stay dates" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Book Now</button>
