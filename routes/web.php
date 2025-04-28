@@ -32,7 +32,7 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
         Route::delete('/cancel-booking/', [RoomBookingController::class, 'cancel'])->name('cancel');
         Route::get('/filter-rooms', [RoomBookingController::class, 'filter'])->name('filter');
         Route::post('/get-rooms', [RoomBookingController::class, 'getRoomData'])->name('getRoomData');
-        
+         
 
     });
 
